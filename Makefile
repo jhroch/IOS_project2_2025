@@ -1,5 +1,5 @@
 CC = gcc
-CFLAGS = -std=gnu99 -Wall -Wextra -Werror -pedantic
+CFLAGS = -std=gnu99 -Wall -Wextra -Werror -pedantic -g
 LDFLAGS = -pthread -lrt
 
 all: proj2
@@ -13,7 +13,7 @@ run: proj2
 test: run
 	./kontrola-vystupu.sh < proj2.out
 
-#python3 ./ios_proj2_test.py run ./proj2 100 100 4 10 10
+#python3.12 ./ios_proj2_test.py run ./proj2 1555 1555 100 10 10
 
 clean:
 	rm -f proj2 proj2.out

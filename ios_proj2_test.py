@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # IOS 2024/25 proj2 test
 # autor: @ondar.irl
-# verze: 2
+# verze: 3
 
 import argparse, subprocess, sys
 from enum import Enum
@@ -235,12 +235,18 @@ def analyze(path=DEFAULT_OUT, N: int = -1, O: int = -1, K: int = -1) -> None:
         if ferry.state != FerryState.FINISHED or num != len(lines):
             raise ValueError("Ferry didn't finish on the last line")
         for vt in ["N", "O"]:
+            port_vt = {"0": 0, "1": 0}
             for vehicle in vehicles[vt].values():
                 if vehicle.state != VehicleState.LEFT:
                     raise ValueError(f"{vt} {vehicle.id} didn't reach its destination")
-
-            if (len_id := len(vehicles[vt])) != (max_id := max([int(id) for id in vehicles[vt].keys()])):
-                raise ValueError(f"'{vt}' processes have a gap in their ids (found {len_id} processes, highest id is {max_id})")
+                port_vt[vehicle.port] += 1
+            if (len_vt := len(vehicles[vt])) != 0:
+                if len_vt != (max_id := max([int(id) for id in vehicles[vt].keys()])):
+                    raise ValueError(f"'{vt}' processes have a gap in their ids (found {len_vt} processes, highest id is {max_id})")
+            if len_vt >= 2:
+                for port in ("0", "1"):
+                    if port_vt[port] == 0:
+                        print(f"{Fore.YELLOW}{Style.BRIGHT}Warning: {Style.NORMAL}No '{vt}' processes started at port {port} (check randomness){Style.RESET_ALL}")
 
     # zachycene chyby, ukonceni testu
     except ValueError as e:
