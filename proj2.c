@@ -177,7 +177,7 @@ void ferryProcess(void){
         shm->port = (shm->port + 1) % 2;  // switch port
     }
 
-    if(TP > 0) usleep(rand() % (TP + 1));
+    usleep(rand() % (TP + 1));
     fprintfOutput("P: finish");
     exit(0);
 }
@@ -194,7 +194,7 @@ void carProcess(int id, int type, int port){
     fprintfOutput("%c %d: started", carType, id);
     
     // arrival time
-    if(TA > 0) usleep(rand() % (TA + 1));
+    usleep(rand() % (TA + 1));
     fprintfOutput("%c %d: arrived to %d", carType, id, port);
 
     // add to waiting
